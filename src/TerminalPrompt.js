@@ -17,8 +17,8 @@ class TerminalPrompt extends Component {
 			fontFamily: 'monospace',
 			fontSize: '12px',
 			color: 'white',
-			backgroundColor: 'black',
-			width: '100%',
+			backgroundColor: '#252525',
+			width: '99%',
 			outline: 'none',
 			padding: '0',
 			margin: '0',
@@ -40,7 +40,7 @@ class TerminalPrompt extends Component {
 						}}>aws&gt;&nbsp;</td>
 						<td style={{
 							width: '100%'
-						}}><input type="text" style={inputStyle} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} /></td>
+						}}><input type="text" style={inputStyle} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
 					</tr>
 				</tbody>
 			</table>
