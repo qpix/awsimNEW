@@ -24,7 +24,7 @@ class TerminalPrompt extends Component {
 			margin: '0',
 		}
 
-		if (this.state.locked)
+		if (this.state.Locked)
 			return(<div></div>);
 
 		return (
