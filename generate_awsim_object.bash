@@ -7,7 +7,7 @@ for SERVICE_FILE in services/*/*/service-2.json; do
 	echo "awsim['$SERVICE_NAME'] = require('./$SERVICE_FILE');" >> tmp.txt
 done
 
-cp ../awsim-skeleton.js awsim.js
+cp ../skeletons/awsim.js awsim.js
 sort --reverse tmp.txt | sort -u -t '/' -k 3,3 >> awsim.js
 bash ../populate_awsim_object_state.bash
 

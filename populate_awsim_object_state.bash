@@ -1,60 +1,52 @@
 #!/bin/bash
 
-function add_sub_command {
-	CLI_SUB_COMMAND=$2
-	for X in {A..Z}
+function CommandToOperation {
+	OPERATION=$1
+	for X in {a..z}
 	do
-		CLI_SUB_COMMAND=$(echo $CLI_SUB_COMMAND | sed "s/$X/-$(echo $X | tr '[:upper:]' '[:lower:]')/g")
+		OPERATION=$(echo $OPERATION | sed "s/-$X/$(echo $X | tr '[:lower:]' '[:upper:]')/g")
+		OPERATION=$(echo $OPERATION | sed "s/^$X/$(echo $X | tr '[:lower:]' '[:upper:]')/g")
 	done
-	CLI_SUB_COMMAND=$(echo $CLI_SUB_COMMAND | sed 's/^-//')
-
-	echo Adding subcommand: aws $1 $CLI_SUB_COMMAND
-	echo "awsim['$1']['operations']['$2']['_state'] = JSON.parse(atob('$(aws $1 $CLI_SUB_COMMAND | base64)'));" >> awsim.js
-	echo "awsim['$1']['operations']['$2']['_options'] = {};" >> awsim.js
-	echo "awsim['$1']['operations']['$2']['_execute'] = function(CommandObject) { return JSON.stringify(awsim['$1']['operations']['$2']['_state'], null, 1); };" >> awsim.js
+	echo $OPERATION
 }
 
-function prepare_sub_command_with_required_option {
-	echo 'Preparing subcommand with required option:' $1 $2
-	echo "awsim['$1']['operations']['$2']['_options'] = {};" >> awsim.js
-	echo "awsim['$1']['operations']['$2']['_state'] = {};" >> awsim.js
+function addC {
+	COMMAND=$1
+	SUBCOMMAND=$2
+	OPERATION=$(CommandToOperation $SUBCOMMAND)
+
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state'] = JSON.parse(atob('$(aws $COMMAND $SUBCOMMAND | base64)'));" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_options'] = {};" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_execute'] = function(CommandObject) { return JSON.stringify(awsim['$COMMAND']['operations']['$OPERATION']['_state'], null, 1); };" >> awsim.js
 }
 
-function add_sub_command_with_required_option {
-	CLI_SUB_COMMAND=$2
-	for X in {A..Z}
-	do
-		CLI_SUB_COMMAND=$(echo $CLI_SUB_COMMAND | sed "s/$X/-$(echo $X | tr '[:upper:]' '[:lower:]')/g")
-	done
-	CLI_SUB_COMMAND=$(echo $CLI_SUB_COMMAND | sed 's/^-//')
+function PREP {
+	COMMAND=$1
+	SUBCOMMAND=$2
+	OPERATION=$(CommandToOperation $SUBCOMMAND)
+	OPTION=$3
 
-	echo Adding subcommand with required option: aws $1 $CLI_SUB_COMMAND $3 $4
-	echo "awsim['$1']['operations']['$2']['_state']['$3 $4'] = JSON.parse(atob('$(aws $1 $CLI_SUB_COMMAND $3 $4 | base64)'));" >> awsim.js
-	echo "\
-awsim['$1']['operations']['$2']['_options']['$3'] = () => {\
-        var result = [];\
-        for (var key in awsim['$1']['operations']['$2']['_state'])\
-                result.push(key.split(' ')[1]);\
-        return result;\
-};\
-awsim['$1']['operations']['$2']['_execute'] = (command) => {\
-	var optionName = '$3'.replace('--','');\
-        if (command.options[optionName] === undefined || command.options[optionName][0] === undefined || command.options[optionName].length > 1)\
-                return 'aws: error: argument $3: expected one argument';\
-	var optionValue = command['options'][optionName][0];\
-        var resource = awsim['$1']['operations']['$2']['_state']['$3 ' + optionValue];\
-        if (resource === undefined)\
-                return 'An error occurred (ResourceNotFoundException) when calling the $2 operation: Requested resource not found: ' + optionValue + ' not found';\
-        return JSON.stringify(resource, null, 1);\
-};" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_options'] = {};" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state'] = {};" >> awsim.js
+	sed "s/\$COMMAND/$COMMAND/g" ../skeletons/operation_with_options_function.js | sed "s/\$OPERATION/$OPERATION/g" | sed "s/\$OPTION/$OPTION/g" >> awsim.js
+}
+
+function addO {
+	COMMAND=$1
+	SUBCOMMAND=$2
+	OPERATION=$(CommandToOperation $SUBCOMMAND)
+	OPTION=$3
+	OPTION_VALUE=$4
+
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state']['$OPTION $OPTION_VALUE'] = JSON.parse(atob('$(aws $COMMAND $SUBCOMMAND $OPTION $OPTION_VALUE | base64)'));" >> awsim.js
 }
 
 #!#!#! EC2
-add_sub_command					ec2 DescribeInstances
+addC ec2 describe-instances
 
 #!#!#! DYNAMODB
-add_sub_command dynamodb ListTables
+addC dynamodb list-tables
 
-prepare_sub_command_with_required_option dynamodb DescribeTable
-add_sub_command_with_required_option		dynamodb DescribeTable --table-name MyDB
-add_sub_command_with_required_option		dynamodb DescribeTable --table-name MyTable
+PREP dynamodb describe-table --table-name
+addO dynamodb describe-table --table-name MyDB
+addO dynamodb describe-table --table-name MyTable
