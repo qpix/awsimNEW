@@ -4,24 +4,32 @@ class TerminalDocumentation extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			content: 'docs'
+			InnerHTML: {__html: '<div></div>'},
+			Hidden: true
 		};
 	}
-	update(content) {
-		this.setState({
-			content: content
-		});
+	update(HTML) {
+		if (HTML)
+			this.setState({
+				InnerHTML: {__html: HTML},
+				Hidden: false
+			});
+		else
+			this.clear()
 	}
 	clear() {
 		this.setState({
-			content: ''
+			Hidden: true
 		});
 	}
 	render() {
+		var documentationStyle = {
+			borderTop: '1px solid white'
+		};
+		if (this.state.Hidden)
+			documentationStyle.display = 'none';
 		return (
-			<div>
-				{this.state.content}
-			</div>
+			<div style={documentationStyle} dangerouslySetInnerHTML={this.state.InnerHTML}></div>
 		);
 	}
 }

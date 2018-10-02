@@ -31,6 +31,7 @@ class TerminalPrompt extends Component {
 			<table style={{
 				borderCollapse: 'collapse',
 				width: '100%',
+				marginBottom: '125px',
 			}}>
 				<tbody>
 					<tr>
