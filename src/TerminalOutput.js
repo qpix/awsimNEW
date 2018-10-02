@@ -19,7 +19,7 @@ class TerminalOutput extends Component {
 
 	echo(string) {
 		this.setState({
-			output: this.state.output += '<br>' + string
+			content: this.state.content + '\n' + string
 		});
 	}
 }

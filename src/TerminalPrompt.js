@@ -23,6 +23,10 @@ class TerminalPrompt extends Component {
 			padding: '0',
 			margin: '0',
 		}
+
+		if (this.state.locked)
+			return(<div></div>);
+
 		return (
 			<table style={{
 				borderCollapse: 'collapse',
@@ -32,7 +36,7 @@ class TerminalPrompt extends Component {
 					<tr>
 						<td style={{
 							width: '0%'
-						}}>aws&gt;</td>
+						}}>aws&gt;&nbsp;</td>
 						<td style={{
 							width: '100%'
 						}}><input type="text" style={inputStyle} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} /></td>
@@ -69,20 +73,20 @@ class TerminalPrompt extends Component {
 		if (event.keyCode === 13) {
 			//promptText.style.display = 'none';
 			//this.readOnly = true;
-			this.setState({Locked:true});
 			this.props.Suggester.current.update(['']);
-			this.props.Output.current.echo('aws&gt; '+ prompt.value);
-
+			this.props.Output.current.echo('aws> '+ this.state.InputValue);
 			var command = CreateCommandArray(this.state.InputValue);
-			this.commandHistory.unshift(command);
 
-			setTimeout(() => {
-				this.props.OutputFunctions.echo(this.props.awsim._ExecuteCommand(command));
-				this.setState({
-					Locked: false,
-					InputValue: '',
-				});
-			}, 2500);
+			this.setState({Locked:true}, () => {
+				setTimeout(() => {
+					this.props.Output.current.echo(this.props.awsim._ExecuteCommand(command));
+					this.setState({
+						Locked: false,
+						InputValue: '',
+						CommandHistory: this.state.CommandHistory.slice().unshift(command),
+					});
+				}, 2500);
+			});
 		}
 		else if (event.keyCode === 38) {
 			if (this.state.InputValue === '' || this.state.CommandHistoryPointer >= 0) {
