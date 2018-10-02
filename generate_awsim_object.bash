@@ -2,7 +2,7 @@
 
 cd src
 
-for SERVICE_FILE in services/*/*/service-2.json; do
+for SERVICE_FILE in data/*/*/service-2.json; do
 	SERVICE_NAME=$(echo $SERVICE_FILE | cut -f2 -d/)
 	echo "awsim['$SERVICE_NAME'] = require('./$SERVICE_FILE');" >> tmp.txt
 done

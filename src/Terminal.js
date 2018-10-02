@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import TerminalOutput from './TerminalOutput';
-import TerminalSuggester from './TerminalSuggester';
-import TerminalPrompt from './TerminalPrompt';
-import TerminalDocumentation from './TerminalDocumentation';
+import TerminalOutput from './terminal/Output';
+import TerminalSuggester from './terminal/Suggester';
+import TerminalPrompt from './terminal/Prompt';
+import TerminalDocumentation from './terminal/Documentation';
 
 class Terminal extends Component {
 	constructor(props) {
