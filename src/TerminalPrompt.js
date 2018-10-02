@@ -81,10 +81,12 @@ class TerminalPrompt extends Component {
 			this.setState({Locked:true}, () => {
 				setTimeout(() => {
 					this.props.Output.current.echo(this.props.awsim._ExecuteCommand(command));
+					let CommandHistory = this.state.CommandHistory.slice();
+					CommandHistory.unshift(command);
 					this.setState({
 						Locked: false,
 						InputValue: '',
-						CommandHistory: this.state.CommandHistory.slice().unshift(command),
+						CommandHistory: CommandHistory,
 					});
 				}, 2500);
 			});
