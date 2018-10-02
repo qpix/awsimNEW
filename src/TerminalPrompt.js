@@ -25,7 +25,7 @@ class TerminalPrompt extends Component {
 		}
 
 		if (this.state.Locked)
-			return(<div></div>);
+			return(<div style={{marginBottom:'125px'}}></div>);
 
 		return (
 			<table style={{
