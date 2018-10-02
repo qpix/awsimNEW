@@ -45,7 +45,7 @@ awsim['$1']['operations']['$2']['_execute'] = (command) => {\
         var resource = awsim['$1']['operations']['$2']['_state']['$3 ' + optionValue];\
         if (resource === undefined)\
                 return 'An error occurred (ResourceNotFoundException) when calling the $2 operation: Requested resource not found: ' + optionValue + ' not found';\
-        return '<pre>' + JSON.stringify(resource, null, 1) + '</pre>';\
+        return JSON.stringify(resource, null, 1);\
 };" >> awsim.js
 }
 
