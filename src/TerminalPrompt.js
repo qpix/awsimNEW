@@ -11,16 +11,58 @@ class TerminalPrompt extends Component {
 			Locked: false
 		}
 	}
+	render() {
+		var inputStyle = {
+			border: 'none',
+			fontFamily: 'monospace',
+			fontSize: '12px',
+			color: 'white',
+			backgroundColor: 'black',
+			width: '100%',
+			outline: 'none',
+			padding: '0',
+			margin: '0',
+		}
+		return (
+			<table style={{
+				borderCollapse: 'collapse',
+				width: '100%',
+			}}>
+				<tbody>
+					<tr>
+						<td style={{
+							width: '0%'
+						}}>aws&gt;</td>
+						<td style={{
+							width: '100%'
+						}}><input type="text" style={inputStyle} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} /></td>
+					</tr>
+				</tbody>
+			</table>
+		);
+	}
 	updateInputValue(SyntheticEvent) {
 		var input = SyntheticEvent.target;
-		const value = input.value;
-		var iX = input.offsetLeft + 7.3 * input.selectionStart + 'px';
-		var iY = input.offsetTop + 15 + 'px';
+
+		// Calculating suggester position
+		var iX = 0;
+		var iY = 15;
+		var element = input;
+		while (element !== document.body) {
+			iX += element.offsetLeft;
+			iY += element.offsetTop;
+			element = element.parentElement;
+		}
+		iX += 7.3 * input.selectionStart;
+		iX += 'px';
+		iY += 'px';
+
 		this.setState({
-			InputValue: value,
+			InputValue: input.value,
 			CommandHistoryPointer: -1
 		});
-		this.props.Suggester.current.update(CreateCommandArray(value), iX, iY);
+
+		this.props.Suggester.current.update(CreateCommandArray(input.value), iX, iY);
 	}
 	keyUp(event) {
 		var pointer = this.state.CommandHistoryPointer;
@@ -78,11 +120,6 @@ class TerminalPrompt extends Component {
 				});
 			}
 		}
-	}
-	render() {
-		return (
-			<div>aws&gt; <input type="text" value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} /></div>
-		);
 	}
 }
 

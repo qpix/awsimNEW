@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import './index.css';
 
 class TerminalSuggester extends Component {
 
@@ -19,11 +20,11 @@ class TerminalSuggester extends Component {
 		let objects = this.buildWindowObjects();
 
 		var tableStyle = {
-			borderCollapse: 'collapse',
-			position: 'relative',
-			left: this.state.WindowX,
-			top: this.state.WindowY,
-		};
+				borderCollapse: 'collapse',
+				position: 'absolute',
+				left: this.state.WindowX,
+				top: this.state.WindowY,
+		}
 
 		return (
 			<table style={tableStyle}>
