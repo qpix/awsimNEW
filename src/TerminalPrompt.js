@@ -70,8 +70,8 @@ class TerminalPrompt extends Component {
 			//promptText.style.display = 'none';
 			//this.readOnly = true;
 			this.setState({Locked:true});
-			this.props.SuggesterFunctions.update(['']);
-			this.props.OutputFunctions.echo('aws&gt; '+ prompt.value);
+			this.props.Suggester.current.update(['']);
+			this.props.Output.current.echo('aws&gt; '+ prompt.value);
 
 			var command = CreateCommandArray(this.state.InputValue);
 			this.commandHistory.unshift(command);
