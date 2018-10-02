@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
 
-const tableStyle = {
-	borderCollapse: 'collapse'
-}
-
 class TerminalSuggester extends Component {
+
 	constructor(props) {
 		super(props);
 		this.state = {
+			WindowX: '0px',
+			WindowY: '0px',
 			WindowTop: 0,
 			WindowLength: 0,
 			WindowCurrent: 0,
@@ -15,14 +14,24 @@ class TerminalSuggester extends Component {
 			ToggableCommands: [],
 		};
 	}
+
 	render() {
 		let objects = this.buildWindowObjects();
+
+		var tableStyle = {
+			borderCollapse: 'collapse',
+			position: 'relative',
+			left: this.state.WindowX,
+			top: this.state.WindowY,
+		};
+
 		return (
 			<table style={tableStyle}>
 				{objects}
 			</table>
 		);
 	}
+
 	buildWindowObjects() {
 		var objects = [];
 
@@ -111,11 +120,7 @@ class TerminalSuggester extends Component {
 		return this.state.ToggableCommands[wCurrent].command.join(' ');
 	}
 
-
-	update(command) {
-		//this.style.top = prompt.offsetTop + 15 + 'px';
-		//this.style.left = prompt.offsetLeft + 7.3 * prompt.selectionStart + 'px';
-
+	update(command, wX = this.state.WindowLeft, wY = this.state.WindowTop) {
 		var toggableValues = [{command:command}];
 
 		if (command.length === 0 || (command.length === 1 && command[0] === '')) {
@@ -176,6 +181,8 @@ class TerminalSuggester extends Component {
 		this.setState({
 			ToggableCommands: toggableValues,
 			WindowCurrent: 0,
+			WindowX: wX,
+			WindowY: wY,
 			WindowTop: 1,
 			WindowLength: (toggableValues.length >= 8) ? 7 : toggableValues.length - 1,
 		});

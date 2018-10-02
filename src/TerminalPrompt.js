@@ -12,12 +12,15 @@ class TerminalPrompt extends Component {
 		}
 	}
 	updateInputValue(SyntheticEvent) {
-		const value = SyntheticEvent.target.value;
+		var input = SyntheticEvent.target;
+		const value = input.value;
+		var iX = input.offsetLeft + 7.3 * input.selectionStart + 'px';
+		var iY = input.offsetTop + 15 + 'px';
 		this.setState({
 			InputValue: value,
 			CommandHistoryPointer: -1
 		});
-		this.props.Suggester.current.update(CreateCommandArray(value));
+		this.props.Suggester.current.update(CreateCommandArray(value), iX, iY);
 	}
 	keyUp(event) {
 		var pointer = this.state.CommandHistoryPointer;
