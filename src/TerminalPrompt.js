@@ -65,7 +65,7 @@ class TerminalPrompt extends Component {
 		this.setState({
 			InputValue: input.value,
 			CommandHistoryPointer: -1
-		});
+		}, () => { window.scrollTo(0,document.body.scrollHeight); });
 
 		this.props.Suggester.current.update(CreateCommandArray(input.value), iX, iY);
 	}

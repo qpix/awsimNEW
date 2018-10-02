@@ -20,7 +20,7 @@ class TerminalOutput extends Component {
 	echo(string) {
 		this.setState({
 			content: this.state.content + '\n' + string
-		});
+		}, () => { window.scrollTo(0,document.body.scrollHeight); });
 	}
 }
 
