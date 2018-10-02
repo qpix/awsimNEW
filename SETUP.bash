@@ -10,7 +10,7 @@ function CommandToOperation {
 	echo $OPERATION
 }
 
-function addC {
+function C {
 	COMMAND=$1
 	SUBCOMMAND=$2
 	OPERATION=$(CommandToOperation $SUBCOMMAND)
@@ -20,7 +20,7 @@ function addC {
 	echo "awsim['$COMMAND']['operations']['$OPERATION']['_execute'] = function(CommandObject) { return JSON.stringify(awsim['$COMMAND']['operations']['$OPERATION']['_state'], null, 1); };" >> awsim.js
 }
 
-function PREP {
+function prepO {
 	COMMAND=$1
 	SUBCOMMAND=$2
 	OPERATION=$(CommandToOperation $SUBCOMMAND)
@@ -31,22 +31,27 @@ function PREP {
 	sed "s/\$COMMAND/$COMMAND/g" ../skeletons/operation_with_options_function.js | sed "s/\$OPERATION/$OPERATION/g" | sed "s/\$OPTION/$OPTION/g" >> awsim.js
 }
 
-function addO {
+function O {
 	COMMAND=$1
 	SUBCOMMAND=$2
 	OPERATION=$(CommandToOperation $SUBCOMMAND)
 	OPTION=$3
 	OPTION_VALUE=$4
 
+	if ! fgrep -q "awsim['$COMMAND']['operations']['$OPERATION']['_options']" awsim.js; then
+		prepO $1 $2 $3
+	fi
+
 	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state']['$OPTION $OPTION_VALUE'] = JSON.parse(atob('$(aws $COMMAND $SUBCOMMAND $OPTION $OPTION_VALUE | base64)'));" >> awsim.js
 }
 
-#!#!#! EC2
-addC ec2 describe-instances
+cd src
+for SERVICE_FILE in data/*/*/service-2.json; do
+        SERVICE_NAME=$(echo $SERVICE_FILE | cut -f2 -d/)
+        echo "awsim['$SERVICE_NAME'] = require('./$SERVICE_FILE');" >> tmp.txt
+done
+cp ../skeletons/awsim.js awsim.js
+sort --reverse tmp.txt | sort -u -t '/' -k 3,3 >> awsim.js
+rm -f tmp.txt
 
-#!#!#! DYNAMODB
-addC dynamodb list-tables
-
-PREP dynamodb describe-table --table-name
-addO dynamodb describe-table --table-name MyDB
-addO dynamodb describe-table --table-name MyTable
+source ../CONFIG.bash
