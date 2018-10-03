@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styles from './Suggester.css';
 
 class TerminalSuggester extends Component {
 
@@ -38,25 +39,12 @@ class TerminalSuggester extends Component {
 		var objects = [];
 
 		for (var i = this.state.WindowTop; i < this.state.WindowTop + this.state.WindowLength; i++) {
-			var commandStyle;
-			var descriptionStyle;
-			if (i === this.state.WindowCurrent) {
-				commandStyle = {
-					color: 'black',
-					backgroundColor: '#1bafae'
-				};
-				descriptionStyle = commandStyle;
-			}
-			else {
-				commandStyle = {
-					color: 'white',
-					backgroundColor: '#128786'
-				};
-				descriptionStyle = {
-					color: 'white',
-					backgroundColor: '#1bafae'
-				};
-			}
+			var commandStyle = styles.passiveCommand;
+			var descriptionStyle = styles.passiveDescription;
+
+			if (i === this.state.WindowCurrent)
+				commandStyle = descriptionStyle = styles.activeCell;
+
 			if (this.state.ToggableCommands[i].description)
 				objects.push(
 					<tr key={i}>

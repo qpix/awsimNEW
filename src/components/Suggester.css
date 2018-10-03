@@ -1,0 +1,14 @@
+.activeCell {
+	color: black;
+	background-color: #1bafae;
+}
+
+.passiveCommand {
+	color: white;
+	background-color: #128786;
+}
+
+.passiveDescription {
+	color: white;
+	background-color: #1bafae;
+}
