@@ -11,6 +11,7 @@ class TerminalPrompt extends Component {
 			Locked: false
 		}
 	}
+
 	render() {
 		if (this.state.Locked)
 			return(<div style={{marginBottom:'125px'}}></div>);
@@ -26,8 +27,15 @@ class TerminalPrompt extends Component {
 			</table>
 		);
 	}
+
 	updateInputValue(SyntheticEvent) {
 		var input = SyntheticEvent.target;
+		var Suggester = this.props.Suggester.current;
+
+		this.setState({
+			InputValue: input.value,
+			CommandHistoryPointer: -1
+		}, () => { window.scrollTo(0,document.body.scrollHeight); });
 
 		// Calculating suggester position
 		var iX = 0;
@@ -42,26 +50,25 @@ class TerminalPrompt extends Component {
 		iX += 'px';
 		iY += 'px';
 
-		this.setState({
-			InputValue: input.value,
-			CommandHistoryPointer: -1
-		}, () => { window.scrollTo(0,document.body.scrollHeight); });
-
-		this.props.Suggester.current.update(CreateCommandArray(input.value), iX, iY);
+		// Updating suggester content and position
+		Suggester.update(CreateCommandArray(input.value), iX, iY);
 	}
+
 	keyUp(event) {
-		var pointer = this.state.CommandHistoryPointer;
+		var Suggester = this.props.Suggester.current;
+		var Output = this.props.Output.current;
+		var CommandHistory = this.state.CommandHistory.slice();
+		var CommandHistoryPointer = this.state.CommandHistoryPointer;
+		var CommandHistoryLength = this.state.CommandHistory.length;
+
 		if (event.keyCode === 13) {
-			//promptText.style.display = 'none';
-			//this.readOnly = true;
-			this.props.Suggester.current.update(['']);
-			this.props.Output.current.echo('aws> '+ this.state.InputValue);
+			Suggester.update(['']);
+			Output.echo('aws> '+ this.state.InputValue);
 			var command = CreateCommandArray(this.state.InputValue);
 
 			this.setState({Locked:true}, () => {
 				setTimeout(() => {
-					this.props.Output.current.echo(this.props.awsim._ExecuteCommand(command));
-					let CommandHistory = this.state.CommandHistory.slice();
+					Output.echo(this.props.awsim._ExecuteCommand(command));
 					CommandHistory.unshift(command);
 					this.setState({
 						Locked: false,
@@ -71,41 +78,41 @@ class TerminalPrompt extends Component {
 				}, 2500);
 			});
 		}
+
 		else if (event.keyCode === 38) {
-			if (this.state.InputValue === '' || this.state.CommandHistoryPointer >= 0) {
-				pointer += 1;
-				if (pointer === this.state.CommandHistory.length)
-					pointer -= 1;
+			if (this.state.InputValue === '' || CommandHistoryPointer >= 0) {
+				CommandHistoryPointer += 1;
+
+				if (CommandHistoryPointer === CommandHistoryLength)
+					CommandHistoryPointer -= 1;
+
 				this.setState({
-					InputValue: this.state.CommandHistory[pointer].join(' '),
-					CommandHistoryPointer: pointer,
+					InputValue: CommandHistory[CommandHistoryPointer].join(' '),
+					CommandHistoryPointer: CommandHistoryPointer,
 				});
 			}
-			else {
-				this.setState({
-					InputValue: this.props.Suggester.current.goUp(),
-				});
-			}
+			else
+				this.setState({InputValue:this.props.Suggester.current.goUp()});
 		}
+
 		else if (event.keyCode === 40) {
-			if (this.state.CommandHistoryPointer >= 0) {
-				pointer -= 1;
-				if (pointer === -1)
+			if (CommandHistoryPointer >= 0) {
+				CommandHistoryPointer -= 1;
+
+				if (CommandHistoryPointer === -1)
 					this.setState({
 						InputValue: '',
-						CommandHistoryPointer: pointer,
+						CommandHistoryPointer: CommandHistoryPointer,
 					});
+
 				else
 					this.setState({
-						InputValue: this.state.CommandHistory[pointer].join(' '),
-						CommandHistoryPointer: pointer,
+						InputValue: CommandHistory[CommandHistoryPointer].join(' '),
+						CommandHistoryPointer: CommandHistoryPointer,
 					});
 			}
-			else {
-				this.setState({
-					InputValue: this.props.Suggester.current.goDown(),
-				});
-			}
+			else
+				this.setState({InputValue:this.props.Suggester.current.goDown()});
 		}
 	}
 }
