@@ -17,7 +17,7 @@ class TerminalPrompt extends Component {
 			return(<div style={{marginBottom:'125px'}}></div>);
 
 		return (
-			<table>
+			<table class="prompt">
 				<tbody>
 					<tr>
 						<td style={{

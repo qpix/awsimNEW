@@ -1,10 +1,10 @@
-table {
+.prompt {
 	border-collapse: collapse;
 	width: 100%;
 	margin-bottom: 125px;
 }
 
-input {
+.prompt input {
 	border: none;
 	font-family: monospace;
 	font-size: 12px;
