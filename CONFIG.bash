@@ -1,4 +1,9 @@
-C ec2 describe-instances
-C dynamodb list-tables
-O dynamodb describe-table --table-name MyDB
-O dynamodb describe-table --table-name MyTable
+# CREDENTIALS #
+AWS_ACCESS_KEY_ID=
+AWS_SECRET_ACCESS_KEY=
+
+# COMMANDS #
+aws ec2 describe-instances
+aws dynamodb list-tables
+aws dynamodb describe-table --table-name MyDB
+aws dynamodb describe-table --table-name MyTable

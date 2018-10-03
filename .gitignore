@@ -9,6 +9,9 @@
 # production
 /build
 
+# awsim state object
+/src/awsim.js
+
 # misc
 .DS_Store
 .env.local
