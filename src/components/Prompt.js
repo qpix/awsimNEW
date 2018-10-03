@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { CreateCommandArray } from '../tools/commandOperations';
-import './Prompt.css';
 
 class TerminalPrompt extends Component {
 	constructor(props) {

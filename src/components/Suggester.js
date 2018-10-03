@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './Suggester.css';
 
 class TerminalSuggester extends Component {
 
@@ -27,7 +26,7 @@ class TerminalSuggester extends Component {
 		}
 
 		return (
-			<table style={tableStyle}>
+			<table style={tableStyle} class="suggester">
 				<tbody>
 					{objects}
 				</tbody>
