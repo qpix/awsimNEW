@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { CreateCommandArray } from '../tools/commandOperations';
+import './Prompt.css';
 
 class TerminalPrompt extends Component {
 	constructor(props) {
@@ -12,27 +13,11 @@ class TerminalPrompt extends Component {
 		}
 	}
 	render() {
-		var inputStyle = {
-			border: 'none',
-			fontFamily: 'monospace',
-			fontSize: '12px',
-			color: 'white',
-			backgroundColor: '#252525',
-			width: '99%',
-			outline: 'none',
-			padding: '0',
-			margin: '0',
-		}
-
 		if (this.state.Locked)
 			return(<div style={{marginBottom:'125px'}}></div>);
 
 		return (
-			<table style={{
-				borderCollapse: 'collapse',
-				width: '100%',
-				marginBottom: '125px',
-			}}>
+			<table>
 				<tbody>
 					<tr>
 						<td style={{
@@ -40,7 +25,7 @@ class TerminalPrompt extends Component {
 						}}>aws&gt;&nbsp;</td>
 						<td style={{
 							width: '100%'
-						}}><input type="text" style={inputStyle} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
+						}}><input type="text" value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
 					</tr>
 				</tbody>
 			</table>

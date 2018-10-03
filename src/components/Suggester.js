@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Suggester.css';
+import './Suggester.css';
 
 class TerminalSuggester extends Component {
 
@@ -39,23 +39,21 @@ class TerminalSuggester extends Component {
 		var objects = [];
 
 		for (var i = this.state.WindowTop; i < this.state.WindowTop + this.state.WindowLength; i++) {
-			var commandStyle = styles.passiveCommand;
-			var descriptionStyle = styles.passiveDescription;
-
+			var rowClass = 'passive';
 			if (i === this.state.WindowCurrent)
-				commandStyle = descriptionStyle = styles.activeCell;
+				rowClass = 'active';
 
 			if (this.state.ToggableCommands[i].description)
 				objects.push(
-					<tr key={i}>
-						<td style={commandStyle}>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
-						<td style={descriptionStyle}>&nbsp;{this.state.ToggableCommands[i].description}&nbsp;</td>
+					<tr key={i} class={rowClass}>
+						<td>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
+						<td>&nbsp;{this.state.ToggableCommands[i].description}&nbsp;</td>
 					</tr>
 				);
 			else
 				objects.push(
-					<tr key={i}>
-						<td style={commandStyle}>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
+					<tr key={i} class={rowClass}>
+						<td>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
 					</tr>
 				);
 		}
