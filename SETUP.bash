@@ -15,7 +15,7 @@ function add_command {
 	SUBCOMMAND=$2
 	OPERATION=$(CommandToOperation $SUBCOMMAND)
 
-	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state'] = JSON.parse(atob('$(\aws $COMMAND $SUBCOMMAND | base64)'));" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state'] = JSON.parse(atob('$(command aws $COMMAND $SUBCOMMAND | base64)'));" >> awsim.js
 	echo "awsim['$COMMAND']['operations']['$OPERATION']['_options'] = {};" >> awsim.js
 	echo "awsim['$COMMAND']['operations']['$OPERATION']['_execute'] = function(CommandObject) { return JSON.stringify(awsim['$COMMAND']['operations']['$OPERATION']['_state'], null, 1); };" >> awsim.js
 }
@@ -39,13 +39,14 @@ function add_command_with_required_option {
 	OPTION_VALUE=$4
 
 	if ! fgrep -q "awsim['$COMMAND']['operations']['$OPERATION']['_options']" awsim.js; then
-		prepO $1 $2 $3
+		prepare_command_with_required_option $1 $2 $3
 	fi
 
-	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state']['$OPTION $OPTION_VALUE'] = JSON.parse(atob('$(\aws $COMMAND $SUBCOMMAND $OPTION $OPTION_VALUE | base64)'));" >> awsim.js
+	echo "awsim['$COMMAND']['operations']['$OPERATION']['_state']['$OPTION $OPTION_VALUE'] = JSON.parse(atob('$(command $COMMAND $SUBCOMMAND $OPTION $OPTION_VALUE | base64)'));" >> awsim.js
 }
 
 function aws {
+	echo aws $1 $2 $3 $4
 	case "$3" in
 		'--'* ) add_command_with_required_option $1 $2 $3 $4;;
 		* ) add_command $1 $2;;
