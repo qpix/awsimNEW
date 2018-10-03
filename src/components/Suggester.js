@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 class TerminalSuggester extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -49,6 +48,7 @@ class TerminalSuggester extends Component {
 						<td>&nbsp;{this.state.ToggableCommands[i].description}&nbsp;</td>
 					</tr>
 				);
+
 			else
 				objects.push(
 					<tr key={i} className={rowClass}>
