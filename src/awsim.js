@@ -1,4 +1,4 @@
-import { CreateCommandObject } from './CommandOperations';
+import { CreateCommandObject } from './commandOperations';
 
 function OperationToCommand (str) {
 	var RegEx = new RegExp('ID', 'g');

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import TerminalOutput from './terminal/Output';
-import TerminalSuggester from './terminal/Suggester';
-import TerminalPrompt from './terminal/Prompt';
-import TerminalDocumentation from './terminal/Documentation';
+import Output from './Output';
+import Suggester from './Suggester';
+import Prompt from './Prompt';
+import Documentation from './Documentation';
 
 class Terminal extends Component {
 	constructor(props) {
@@ -10,25 +10,25 @@ class Terminal extends Component {
 		this.Output = React.createRef();
 		this.Suggester = React.createRef();
 		this.Documentation = React.createRef();
-		this.awsim = require('./awsim').default;
+		this.awsim = require('../awsim').default;
 	}
 	render() {
 		return (
 			<div>
-				<TerminalOutput
+				<Output
 					ref={this.Output}
 				/>
-				<TerminalSuggester
+				<Suggester
 					awsim={this.awsim}
 					ref={this.Suggester}
 					Documentation={this.Documentation}
 				/>
-				<TerminalPrompt
+				<Prompt
 					awsim={this.awsim}
 					Output={this.Output}
 					Suggester={this.Suggester}
 				/>
-				<TerminalDocumentation
+				<Documentation
 					awsim={this.awsim}
 					ref={this.Documentation}
 				/>

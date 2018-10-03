@@ -1,37 +1,37 @@
 function CreateCommandArray (command) {
-        while (command.search('  ') !== -1) command = command.replace('  ', ' ');
-        return command.split(' ');
+	while (command.search('  ') !== -1) command = command.replace('  ', ' ');
+	return command.split(' ');
 }
 
 function CreateCommandObject (command) {
-        var CommandObject = {
-                commands : [],
-                options : {}
-        }
-        var optionStartIndex = false;
+	var CommandObject = {
+		commands : [],
+		options : {},
+	}
+	var optionStartIndex = false;
 
-        for (var i = 0; i < command.length; i++) {
-                if (command[i].search('--') === 0) {
-                        optionStartIndex = i;
-                        break;
-                }
-                CommandObject.commands.push(command[i]);
-        }
+	for (var i = 0; i < command.length; i++) {
+		if (command[i].search('--') === 0) {
+			optionStartIndex = i;
+			break;
+		}
+		CommandObject.commands.push(command[i]);
+	}
 
-        if (optionStartIndex) {
-                var currentOption;
-                for (var j = optionStartIndex; j < command.length; j++) {
-                        if (command[j].search('--') === 0) {
-                                currentOption = command[j].substring(2);
-                                CommandObject.options[currentOption] = [];
-                        }
-                        else {
-													if (command[j] !== '')
-														CommandObject.options[currentOption].push(command[j]);
-                        }
-                }
-        }
-        return CommandObject;
+	if (optionStartIndex) {
+		var currentOption;
+		for (var j = optionStartIndex; j < command.length; j++) {
+			if (command[j].search('--') === 0) {
+				currentOption = command[j].substring(2);
+				CommandObject.options[currentOption] = [];
+			}
+			else {
+				if (command[j] !== '')
+					CommandObject.options[currentOption].push(command[j]);
+			}
+		}
+	}
+	return CommandObject;
 }
 
 function OperationToCommand (str) {
