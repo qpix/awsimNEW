@@ -8,34 +8,42 @@ body {
 }
 
 .prompt {
-        border-collapse: collapse;
-        width: 100%;
-        margin-bottom: 125px;
+	border-collapse: collapse;
+	width: 100%;
+	margin-bottom: 125px;
+}
+
+.prompt tr td:first-child {
+	width: 0%;
+}
+
+.prompt tr td:last-child {
+	width: 100%;
 }
 
 .prompt input {
-        border: none;
-        font-family: monospace;
-        font-size: 12px;
-        color: white;
-        background-color: #202020;
-        width: 99%;
-        outline: none;
-        padding: 0;
-        margin: 0;
+	border: none;
+	font-family: monospace;
+	font-size: 12px;
+	color: white;
+	background-color: #202020;
+	width: 99%;
+	outline: none;
+	padding: 0;
+	margin: 0;
 }
 
 .suggester .active td {
-        color: black;
-        background-color: #1bafae;
+	color: black;
+	background-color: #1bafae;
 }
 
 .suggester .passive td:first-child {
-        color: white;
-        background-color: #128786;
+	color: white;
+	background-color: #128786;
 }
 
 .suggester .passive td:nth-child(2) {
-        color: white;
-        background-color: #1bafae;
+	color: white;
+	background-color: #1bafae;
 }

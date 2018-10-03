@@ -26,7 +26,7 @@ class TerminalSuggester extends Component {
 		}
 
 		return (
-			<table style={tableStyle} class="suggester">
+			<table style={tableStyle} className="suggester">
 				<tbody>
 					{objects}
 				</tbody>
@@ -44,14 +44,14 @@ class TerminalSuggester extends Component {
 
 			if (this.state.ToggableCommands[i].description)
 				objects.push(
-					<tr key={i} class={rowClass}>
+					<tr key={i} className={rowClass}>
 						<td>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
 						<td>&nbsp;{this.state.ToggableCommands[i].description}&nbsp;</td>
 					</tr>
 				);
 			else
 				objects.push(
-					<tr key={i} class={rowClass}>
+					<tr key={i} className={rowClass}>
 						<td>&nbsp;{this.state.ToggableCommands[i].command.slice(-1)}&nbsp;</td>
 					</tr>
 				);

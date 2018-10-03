@@ -16,15 +16,11 @@ class TerminalPrompt extends Component {
 			return(<div style={{marginBottom:'125px'}}></div>);
 
 		return (
-			<table class="prompt">
+			<table className="prompt">
 				<tbody>
 					<tr>
-						<td style={{
-							width: '0%'
-						}}>aws&gt;&nbsp;</td>
-						<td style={{
-							width: '100%'
-						}}><input type="text" value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
+						<td>aws&gt;&nbsp;</td>
+						<td><input type="text" value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
 					</tr>
 				</tbody>
 			</table>
