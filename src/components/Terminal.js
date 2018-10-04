@@ -40,7 +40,7 @@ class Terminal extends Component {
 	}
 
 	componentDidMount()	{
-		document.onClick = this.Prompt.current.focus(false);
+		document.onclick = () => {this.Prompt.current.focus(false);};
 	}
 }
 
