@@ -8,25 +8,27 @@ class Terminal extends Component {
 	constructor(props) {
 		super(props);
 		this.Output = React.createRef();
+		this.Prompt = React.createRef();
 		this.Suggester = React.createRef();
 		this.Documentation = React.createRef();
 		this.aws = require('../aws').default;
 	}
 	render() {
 		return (
-			<div>
+			<div onClick={() => {this.Prompt.current.focus(false);}}>
 				<Output
 					ref={this.Output}
+				/>
+				<Prompt
+					aws={this.aws}
+					ref={this.Prompt}
+					Output={this.Output}
+					Suggester={this.Suggester}
 				/>
 				<Suggester
 					aws={this.aws}
 					ref={this.Suggester}
 					Documentation={this.Documentation}
-				/>
-				<Prompt
-					aws={this.aws}
-					Output={this.Output}
-					Suggester={this.Suggester}
 				/>
 				<Documentation
 					aws={this.aws}

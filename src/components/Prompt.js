@@ -4,6 +4,7 @@ import { CreateCommandArray } from '../tools/commandOperations';
 class TerminalPrompt extends Component {
 	constructor(props) {
 		super(props);
+		this.Input = React.createRef();
 		this.state = {
 			InputValue: '',
 			CommandHistory: [],
@@ -21,11 +22,21 @@ class TerminalPrompt extends Component {
 				<tbody>
 					<tr>
 						<td>aws&gt;&nbsp;</td>
-						<td><input type="text" value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
+						<td><input type="text" ref={this.Input} value={this.state.InputValue} onKeyUp={(key) => {this.keyUp(key);}} onChange={(string) => {this.updateInputValue(string);}} autoFocus /></td>
 					</tr>
 				</tbody>
 			</table>
 		);
+	}
+
+	focus(scroll = true) {
+		var x = window.scrollX;
+		var y = window.scrollY;
+
+		this.Input.current.focus();
+
+		if (!scroll)
+			window.scrollTo(x, y);
 	}
 
 	updateInputValue(SyntheticEvent) {
