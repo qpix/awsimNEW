@@ -13,6 +13,7 @@ class Terminal extends Component {
 		this.Documentation = React.createRef();
 		this.aws = require('../aws').default;
 	}
+
 	render() {
 		return (
 			<div onClick={() => {this.Prompt.current.focus(false);}}>
@@ -36,6 +37,10 @@ class Terminal extends Component {
 				/>
 			</div>
 		);
+	}
+
+	componentDidMount()	{
+		document.onClick = this.Prompt.current.focus(false);
 	}
 }
 
