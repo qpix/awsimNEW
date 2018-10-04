@@ -5,6 +5,7 @@ body {
 	font-size: 12px;
 	color: white;
 	background-color: black;
+	user-select: none;
 }
 
 .prompt {
@@ -26,7 +27,7 @@ body {
 	font-family: monospace;
 	font-size: 12px;
 	color: white;
-	background-color: #202020;
+	background-color: black;
 	width: 99%;
 	outline: none;
 	padding: 0;
