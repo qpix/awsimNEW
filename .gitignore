@@ -10,7 +10,7 @@
 /build
 
 # awsim state object
-/src/awsim.js
+/src/aws.js
 
 # misc
 .DS_Store

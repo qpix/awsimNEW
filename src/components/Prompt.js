@@ -60,6 +60,7 @@ class TerminalPrompt extends Component {
 		var CommandHistory = this.state.CommandHistory.slice();
 		var CommandHistoryPointer = this.state.CommandHistoryPointer;
 		var CommandHistoryLength = this.state.CommandHistory.length;
+		var aws = this.props.aws;
 
 		if (event.keyCode === 13) {
 			Suggester.update(['']);
@@ -68,7 +69,7 @@ class TerminalPrompt extends Component {
 
 			this.setState({Locked:true}, () => {
 				setTimeout(() => {
-					Output.echo(this.props.awsim._ExecuteCommand(command));
+					Output.echo(aws._ExecuteCommand(command));
 					CommandHistory.unshift(command);
 					this.setState({
 						Locked: false,

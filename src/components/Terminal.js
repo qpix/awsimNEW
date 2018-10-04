@@ -10,7 +10,7 @@ class Terminal extends Component {
 		this.Output = React.createRef();
 		this.Suggester = React.createRef();
 		this.Documentation = React.createRef();
-		this.awsim = require('../awsim').default;
+		this.aws = require('../aws').default;
 	}
 	render() {
 		return (
@@ -19,17 +19,17 @@ class Terminal extends Component {
 					ref={this.Output}
 				/>
 				<Suggester
-					awsim={this.awsim}
+					aws={this.aws}
 					ref={this.Suggester}
 					Documentation={this.Documentation}
 				/>
 				<Prompt
-					awsim={this.awsim}
+					aws={this.aws}
 					Output={this.Output}
 					Suggester={this.Suggester}
 				/>
 				<Documentation
-					awsim={this.awsim}
+					aws={this.aws}
 					ref={this.Documentation}
 				/>
 			</div>

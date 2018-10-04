@@ -110,7 +110,7 @@ class TerminalSuggester extends Component {
 	}
 
 	update(command, wX = this.state.WindowLeft, wY = this.state.WindowTop) {
-		var awsim = this.props.awsim;
+		var aws = this.props.aws;
 		var Documentation = this.props.Documentation.current;
 		var toggableValues = [{command:command}];
 
@@ -123,7 +123,7 @@ class TerminalSuggester extends Component {
 		// User is entering a command
 		else if (command.length === 1)
 		{
-			let availableCommands = awsim._ListCommands();
+			let availableCommands = aws._ListCommands();
 			for (let i = 0; i < availableCommands.length; i++)
 				if (availableCommands[i].search(command[0]) === 0)
 					toggableValues.push({command:[availableCommands[i]]});
@@ -132,11 +132,11 @@ class TerminalSuggester extends Component {
 		// User is entering a subcommand
 		else if (command.length === 2)
 		{
-			let availableOperations = awsim._ListOperations(command[0]);
+			let availableOperations = aws._ListOperations(command[0]);
 			for (let i = 0; i < availableOperations.length; i++)
 				if (availableOperations[i].search(command[1]) === 0)
 					toggableValues.push({command:[command[0],availableOperations[i]]});
-			Documentation.update(this.props.awsim._GetCommandDocumentation(command[0]));
+			Documentation.update(aws._GetCommandDocumentation(command[0]));
 		}
 
 		else
@@ -146,7 +146,7 @@ class TerminalSuggester extends Component {
 				if (command[i].search('-') === 0 || i === 2) {
 					// User is entering an option
 					if (i === command.length - 1) {
-						var availableOperationOptions = awsim._ListOperationOptions(command[0], command[1]);
+						var availableOperationOptions = aws._ListOperationOptions(command[0], command[1]);
 
 						for (let x = 0; x < availableOperationOptions.length; x++)
 							if (availableOperationOptions[x].search(command[i]) === 0) {
@@ -155,11 +155,11 @@ class TerminalSuggester extends Component {
 								toggable.push(availableOperationOptions[x]);
 								toggableValues.push({
 									command: toggable,
-									description: awsim._GetOperationOptionDescription(command[0], command[1], availableOperationOptions[x])
+									description: aws._GetOperationOptionDescription(command[0], command[1], availableOperationOptions[x])
 								});
 							}
 
-						Documentation.update(this.props.awsim._GetOperationDocumentation(command[0], command[1]));
+						Documentation.update(aws._GetOperationDocumentation(command[0], command[1]));
 					}
 					else {
 						currentOption = command[i];
@@ -168,7 +168,7 @@ class TerminalSuggester extends Component {
 				else {
 					// User is entering an option value
 					if (i === command.length - 1 && currentOption) {
-						var availableOperationOptionValues = awsim._ListOperationOptionValues(command[0], command[1], currentOption);
+						var availableOperationOptionValues = aws._ListOperationOptionValues(command[0], command[1], currentOption);
 
 						for (var y = 0; y < availableOperationOptionValues.length; y++)
 							if (availableOperationOptionValues[y].search(command[i]) === 0) {
@@ -178,7 +178,7 @@ class TerminalSuggester extends Component {
 								toggableValues.push({command:toggable});
 							}
 
-						Documentation.update(this.props.awsim._GetOperationOptionDocumentation(command[0], command[1], currentOption));
+						Documentation.update(aws._GetOperationOptionDocumentation(command[0], command[1], currentOption));
 					}
 				}
 			}
