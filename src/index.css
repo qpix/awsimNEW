@@ -8,6 +8,10 @@ body {
 	user-select: none;
 }
 
+pre {
+	white-space: pre-wrap;
+}
+
 .prompt {
 	border-collapse: collapse;
 	width: 100%;
